@@ -91,15 +91,15 @@ let adoptedSet = new Map //<Document, StyleSet>
 class StyleSet {
   constructor(root, nonce) {
     let doc = root.ownerDocument || root, win = doc.defaultView
-    if (!root.head && root.adoptedStyleSheets && win.CSSStyleSheet) {
-      let adopted = adoptedSet.get(doc)
-      if (adopted) return root[SET] = adopted
-      this.sheet = new win.CSSStyleSheet
-      adoptedSet.set(doc, this)
-    } else {
+    // if (!root.head && root.adoptedStyleSheets && win.CSSStyleSheet) {
+    //   let adopted = adoptedSet.get(doc)
+    //   if (adopted) return root[SET] = adopted
+    //   this.sheet = new win.CSSStyleSheet
+    //   adoptedSet.set(doc, this)
+    // } else {
       this.styleTag = doc.createElement("style")
       if (nonce) this.styleTag.setAttribute("nonce", nonce)
-    }
+    // }
     this.modules = []
     root[SET] = this
   }
@@ -125,10 +125,10 @@ class StyleSet {
       }
     }
 
-    if (sheet) {
-      if (root.adoptedStyleSheets.indexOf(this.sheet) < 0)
-        root.adoptedStyleSheets = [this.sheet, ...root.adoptedStyleSheets]
-    } else {
+    // if (sheet) {
+    //   if (root.adoptedStyleSheets.indexOf(this.sheet) < 0)
+    //     root.adoptedStyleSheets = [this.sheet, ...root.adoptedStyleSheets]
+    // } else {
       let text = ""
       for (let i = 0; i < this.modules.length; i++)
         text += this.modules[i].getRules() + "\n"
@@ -136,7 +136,7 @@ class StyleSet {
       let target = root.head || root
       if (this.styleTag.parentNode != target)
         target.insertBefore(this.styleTag, target.firstChild)
-    }
+    // }
   }
 
   setNonce(nonce) {
